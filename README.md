@@ -5,4 +5,4 @@
 3. Analyzer (Ty)
 4. Environmentalist (Grey)
 
-Table 1 -- **nitrate vs. nitrite**
+Table 1 -- **nitrite vs. nitrate**
