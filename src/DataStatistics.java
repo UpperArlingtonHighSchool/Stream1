@@ -105,4 +105,48 @@ sum = sum + Math.pow(d-avg, 2);
 stdDeviation = Math.sqrt(avg/x.size());
 return stdDeviation;
 }
+  
+private static double yHat(double numX, ArrayList<Double> x, ArrayList<Double> y)
+	{
+		double slope = CalculateSlopeXY(x,y);
+		double yInt = CalculateYIntercept(x,y);
+		double output = numX*slope+yInt;
+		return output;
+	}
+	private static double sumSquaredRegression(ArrayList<Double> x, ArrayList<Double> y)
+	{
+		double yPredicted;
+		double yActual;
+		double difference;
+		double sum = 0;
+		for(int i = 0; i < x.size(); i++)
+		{
+			yPredicted = yHat(x.get(i), x, y);
+			yActual = y.get(i);
+			difference = yActual - yPredicted;
+			sum = sum + Math.pow(difference, 2);
+		}
+		return sum;
+	}
+	private static double totalSumOfSquares(ArrayList<Double> x, ArrayList<Double> y)
+	{
+		double yBar = mean(y);
+		double yActual;
+		double difference;
+		double sum = 0;
+		for(int i = 0; i < x.size(); i++)
+		{
+			yActual = y.get(i);
+			difference = yActual - yBar;
+			sum = sum + Math.pow(difference, 2);
+		}
+		return sum;
+	}
+	
+	public static double rSquared(ArrayList<Double> x, ArrayList<Double> y)
+	{
+		double r2 = sumSquaredRegression(x,y)/totalSumOfSquares(x,y);
+		r2 = 1- r2;
+		return r2;
+	}
 }
