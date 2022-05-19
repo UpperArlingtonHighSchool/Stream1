@@ -24,6 +24,10 @@ while(file.hasNextLine())
 location = file.next();
 year = file.nextDouble();
 year = year - 2013;
+  for(int i = 0; i < 11; i++)
+			{
+				file.nextDouble();
+			}
 nitrite = file.nextDouble();
 nitrate = file.nextDouble();
 file.nextLine();
