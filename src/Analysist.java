@@ -92,7 +92,7 @@ public class Analysist {
 	// https://stackoverflow.com/a/6669529
 	public JPanel createDemoPanel() {
 		JFreeChart jfreechart = ChartFactory.createScatterPlot(
-	            "Scatter Plot Demo", "X", "Y", numeralizeXY(),
+	            "Scatter Plot Demo", "Nitrite", "Nitrate", numeralizeXY(),
 	            PlotOrientation.VERTICAL, true, true, false);
 	        XYPlot xyPlot = (XYPlot) jfreechart.getPlot();
 	        xyPlot.setDomainCrosshairVisible(true);
@@ -105,11 +105,23 @@ public class Analysist {
 	/* Alex */
 	// https://www.codejava.net/java-se/graphics/using-jfreechart-to-draw-xy-line-chart-with-xydataset
 	public XYDataset numeralizeXY() {
-		XYSeriesCollection dataset = new XYSeriesCollection();
-		XYSeries series = new XYSeries("Nitrite");
+		ArrayList<Double> x = new ArrayList<Double>();
+		ArrayList<Double> y = new ArrayList<Double>();
+		for (int i = 0; i < masterList.get(0).size(); i++) {
+			x.add(numeralize(masterList.get(DataStatistics.nitriteIndex))[i]);
+			y.add(numeralize(masterList.get(DataStatistics.nitrateIndex))[i]);
+		}
 		
-		for (int i = 0; i < masterList.size(); i++) {
-			series.add(numeralize(masterList.get(DataStatistics.nitriteIndex))[i], numeralize(masterList.get(DataStatistics.nitrateIndex))[i]);
+		XYSeriesCollection dataset = new XYSeriesCollection();
+		XYSeries series = new XYSeries(
+				"Slope: " + DataStatistics.CalculateSlopeXY(x, y) +
+				"\nY Intercept: " + DataStatistics.CalculateYIntercept(x, y) +
+				"\nStandard Deviation of Nitrite: " + DataStatistics.stdDev(x) + 
+				"\nStandard Deviation of Nitrate: " + DataStatistics.stdDev(y) +
+				"\nR Squared: " + DataStatistics.rSquared(x, y));
+		
+		for (int i = 0; i < masterList.get(0).size(); i++) {
+			series.add(x.get(i), y.get(i));
 		}
 		
 		dataset.addSeries(series);

@@ -20,10 +20,8 @@ import java.awt.*;
 public class StreamFrame extends JFrame implements ActionListener{
 Container tuberware=getContentPane();
 JLabel title=new JLabel("Nitrate and Nitrite Stream Contents");
-JButton chart1=new JButton("Placeholder");
-JButton chart2=new JButton("Placeholder");
-JButton chart3=new JButton("Placeholder");
-JButton chart4=new JButton("Placeholder");
+JButton[] charts;
+JPanel[] chartPlaceholders;
 JLabel nitrateLevels;//=new JLabel("<html>First line<br>Second line</html>");
 JLabel nitriteLevels;//=new JLabel("<html>First line<br>Second line</html>");
 ImageIcon logo=new ImageIcon(Main.LOGO_PATH);
@@ -31,6 +29,10 @@ JLabel image=new JLabel(logo);
 	//initilization
 	public StreamFrame()
 	{
+		charts = new JButton[1];
+		chartPlaceholders = new JPanel[charts.length];
+		charts[0]=new JButton("Nitrite vs Nitrate");
+		
 		String[] levels=new String[2];
 		pdfParser bob=new pdfParser();
 		try {
@@ -131,10 +133,8 @@ JLabel image=new JLabel(logo);
 	title.setBounds(400,200,250,300);	
 	Color bl=new Color(10,10,255);
 	title.setForeground(bl);
-	chart1.setBounds(175,400,100,50);
-	chart2.setBounds(350,400,100,50);
-	chart3.setBounds(525,400,100,50);
-	chart4.setBounds(700,400,100,50);
+	for (int i = 0; i < charts.length; i++) /* Alex */
+		charts[i].setBounds(875*(i+1)/(charts.length+1),400,100,50);
 	nitrateLevels.setBounds(250,600,600,100);
 	nitriteLevels.setBounds(250,800,600,100);
 	image.setBounds(350,0,300,300);
@@ -143,88 +143,38 @@ JLabel image=new JLabel(logo);
 	public void intoTuberware()
 	{
 		tuberware.add(title);
-		tuberware.add(chart1);
-		tuberware.add(chart2);
-		tuberware.add(chart3);
-		tuberware.add(chart4);
+		for (JButton chart : charts)
+			tuberware.add(chart);
 		tuberware.add(nitriteLevels);
 		tuberware.add(nitrateLevels);
 		tuberware.add(image);
 	}
 	public void addActionListener()
 	{
-		chart1.addActionListener(this);
-		chart2.addActionListener(this);
-		chart3.addActionListener(this);
-		chart4.addActionListener(this);
+		for (JButton chart : charts)
+			chart.addActionListener(this);
 	}
 	@Override//this is used to detect actions and respond accordingly
 	public void actionPerformed(ActionEvent e)
 	{
-	if(e.getSource()==chart1)
-	{
-
-	//Set this to the appropriate graph instead of a blank jpanel.	
-	JPanel placeholder=Main.analyst.formImage(DataStatistics.nitriteIndex, DataStatistics.nitrateIndex, 300, 200, (Graphics2D) getGraphics()); /* Alex */
-	tuberware.add(placeholder);
-	Color bl=new Color(0,100,200);
-	placeholder.setForeground(bl);
-	JFrame host=new JFrame();
-	host.getContentPane().add(placeholder);
-	host.setVisible(true);
-	host.setBounds(10,10,250,250);
-	host.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-	host.setResizable(false);
-
-	}
-	if(e.getSource()==chart2)
-	{
-
-	//Set this to the appropriate graph instead of a blank jpanel.	
-	JPanel placeholder=new JPanel();
-	tuberware.add(placeholder);
-	Color bl=new Color(0,100,200);
-	placeholder.setForeground(bl);
-	JFrame host=new JFrame();
-	host.getContentPane().add(placeholder);
-	host.setVisible(true);
-	host.setBounds(10,10,250,250);
-	host.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-	host.setResizable(false);
-
-	}
-	if(e.getSource()==chart3)
-	{
-
-	//Set this to the appropriate graph instead of a blank jpanel.	
-	JPanel placeholder=new JPanel();
-	tuberware.add(placeholder);
-	Color bl=new Color(0,100,200);
-	placeholder.setForeground(bl);
-	JFrame host=new JFrame();
-	host.getContentPane().add(placeholder);
-	host.setVisible(true);
-	host.setBounds(10,10,250,250);
-	host.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-	host.setResizable(false);
-
-	}
-	if(e.getSource()==chart4)
-	{
-
-	//Set this to the appropriate graph instead of a blank jpanel.	
-	JPanel placeholder=new JPanel();
-	tuberware.add(placeholder);
-	Color bl=new Color(175,200,250);
-	//placeholder.setForeground(bl);
-	placeholder.setBackground(bl);
-	JFrame host=new JFrame();
-	host.getContentPane().add(placeholder);
-	host.setVisible(true);
-	host.setBounds(10,10,250,250);
-	host.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-	host.setResizable(false);
-
+	chartPlaceholders[0] = Main.analyst.formImage(DataStatistics.nitriteIndex, DataStatistics.nitrateIndex, 300, 200, (Graphics2D) getGraphics()); /* Alex */
+	for (int i = 0; i < charts.length; i++) {
+		if(e.getSource()==charts[i])
+		{
+	
+		//set this to the appropriate graph instead of a blank jpanel.	
+		JPanel placeholder=chartPlaceholders[i];
+		tuberware.add(placeholder);
+		Color bl=new Color(0,100,200);
+		placeholder.setForeground(bl);
+		JFrame host=new JFrame();
+		host.getContentPane().add(placeholder);
+		host.setVisible(true);
+		host.setBounds(10,10,250,250);
+		host.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		host.setResizable(false);
+	
+		}
 	}
 	}
 }
