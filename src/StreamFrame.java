@@ -12,12 +12,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
 import javax.imageio.ImageIO;
 import java.awt.image.*;
 import java.awt.*;
 //this is the heart of the GUI 
-public class StreamFrame extends JFrame implements ActionListener{
+public class StreamFrame extends JFrame implements ActionListener, MouseMotionListener {
 Container tuberware=getContentPane();
 JLabel title=new JLabel("Nitrate and Nitrite Stream Contents");
 JButton[] charts;
@@ -26,9 +28,12 @@ JLabel nitrateLevels;//=new JLabel("<html>First line<br>Second line</html>");
 JLabel nitriteLevels;//=new JLabel("<html>First line<br>Second line</html>");
 ImageIcon logo=new ImageIcon(Main.LOGO_PATH);
 JLabel image=new JLabel(logo);
-	//initilization
-	public StreamFrame()
-	{
+JCheckBox checkbox=new JCheckBox(); /* Alex */
+JLabel checkboxLabel=new JLabel("Scroll Lock");
+private int dy = 0; // vertical offset /* Alex */
+	public StreamFrame() {
+		this.addMouseMotionListener(this);
+		
 		charts = new JButton[1];
 		chartPlaceholders = new JPanel[charts.length];
 		charts[0]=new JButton("Nitrite vs Nitrate");
@@ -73,6 +78,8 @@ JLabel image=new JLabel(logo);
 		nitrateLevels=new JLabel("<html>"+thing2+"<br>"+thing4+"</html>");
 		//nitriteLevels.setText(thing);
 		//nitrateLevels.setText(thing2);
+		checkbox.setSelected(true);
+		
 		setLayoutManager();
 		setLocationAndSize();
 		intoTuberware();
@@ -130,14 +137,16 @@ JLabel image=new JLabel(logo);
 	//used to set location and size for all stored variables. 
 	public void setLocationAndSize()
 	{
-	title.setBounds(400,200,250,300);	
+	title.setBounds(400,200+dy,250,300);	
 	Color bl=new Color(10,10,255);
 	title.setForeground(bl);
 	for (int i = 0; i < charts.length; i++) /* Alex */
-		charts[i].setBounds(875*(i+1)/(charts.length+1),400,100,50);
-	nitrateLevels.setBounds(250,600,600,100);
-	nitriteLevels.setBounds(250,800,600,100);
-	image.setBounds(350,0,300,300);
+		charts[i].setBounds(875*(i+1)/(charts.length+1),400+dy,100,50);
+	nitrateLevels.setBounds(250,600+dy,600,100);
+	nitriteLevels.setBounds(250,800+dy,600,100);
+	image.setBounds(350,0+dy,300,300);
+	checkbox.setBounds(200, 100+dy, 100, 100);
+	checkboxLabel.setBounds(200, 130+dy, 150, 100);
 	//image.setResizable(true);
 	}
 	public void intoTuberware()
@@ -148,6 +157,8 @@ JLabel image=new JLabel(logo);
 		tuberware.add(nitriteLevels);
 		tuberware.add(nitrateLevels);
 		tuberware.add(image);
+		tuberware.add(checkbox);
+		tuberware.add(checkboxLabel);
 	}
 	public void addActionListener()
 	{
@@ -176,5 +187,16 @@ JLabel image=new JLabel(logo);
 	
 		}
 	}
+	}
+	
+	/* Alex */
+	@Override
+	public void mouseDragged(MouseEvent e) {}
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		if (!checkbox.isSelected()) {
+		dy = -e.getY()/2;
+		setLocationAndSize(); // redraw
+		}
 	}
 }
