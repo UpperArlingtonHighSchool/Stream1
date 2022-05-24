@@ -26,7 +26,7 @@ public class DataStatistics {
 			year = year - 2013;
 			for(int i = 0; i < 11; i++)
 			{
-			file.nextDouble();
+				file.nextDouble();
 			}
 			nitrite = file.nextDouble();
 			nitrate = file.nextDouble();
