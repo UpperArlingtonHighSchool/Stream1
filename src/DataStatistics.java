@@ -140,6 +140,34 @@ public class DataStatistics {
 		return r2;
 	}
 	
+	public static double minimum(ArrayList<Double> x)
+	{
+		double min = x.get(0);
+		for(double d : x)
+		{
+			if (d < min)
+			{
+				min = d;
+			}
+		}
+		
+		return min;
+	}
+	
+	public static double maximum(ArrayList<Double> x)
+	{
+		double max = x.get(0);
+		for(double d : x)
+		{
+			if (d > max)
+			{
+				max = d;
+			}
+		}
+		
+		return max;
+	}
+	
 	/* Alex */
 	@SuppressWarnings("unchecked")
 	public static ArrayList<ArrayList<Object>> getDataArrayList() {
