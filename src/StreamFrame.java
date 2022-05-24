@@ -1,4 +1,4 @@
-/* Greyson Fowler */
+/* Greyson Fowler (unless otherwise specified) */
 
 import javax.swing.*;
 import javax.swing.text.AttributeSet.ColorAttribute;
@@ -149,6 +149,8 @@ private int dy = 0; // vertical offset /* Alex */
 	checkboxLabel.setBounds(200, 130+dy, 150, 100);
 	//image.setResizable(true);
 	}
+	
+	// add elements to main frame
 	public void intoTuberware()
 	{
 		tuberware.add(title);
@@ -183,7 +185,7 @@ private int dy = 0; // vertical offset /* Alex */
 		host.setVisible(true);
 		host.setBounds(10,10,250,250);
 		host.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		host.setResizable(false);
+		//host.setResizable(false);
 	
 		}
 	}
